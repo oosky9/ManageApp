@@ -19,7 +19,9 @@
   "homepage": "https://github.com/oosky9/ManageApp#readme",
   "dependencies": {
     "ejs": "^3.1.5",
-    "express": "^4.17.1"
+    "express": "^4.17.1",
+    "jquery": "^3.5.1",
+    "jsdom": "^16.4.0"
   },
   "devDependencies": {
     "nodemon": "^2.0.4"
