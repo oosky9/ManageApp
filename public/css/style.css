@@ -1,0 +1,10 @@
+
+.top-wrapper {
+    max-width: 1200px;
+    min-width: 920px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 0 auto;
+    padding: 60px;
+}
