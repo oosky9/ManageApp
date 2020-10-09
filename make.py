@@ -142,11 +142,11 @@ class makeParamDB(makeTools):
 
 def main():
 
-    # backup_dir = "D:\\Backup\\"
+    backup_dir = "D:\\Backup\\"
 
-    # do_backup = makeBackup(backup_dir)
+    do_backup = makeBackup(backup_dir)
 
-    # do_backup.copy()
+    do_backup.copy()
 
     database_path = "D:\\Database\\"
     if not os.path.isdir(database_path):
