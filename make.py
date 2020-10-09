@@ -96,13 +96,21 @@ class makeParamDB(makeTools):
 
         d, t = super().getDateTime()
 
-        sql_code = 'INSERT INTO {} VALUES(\'{}\', \'{}\', \'{}\', '.format(self.table_name, self.primary_key, d, t)
+        sql_column = '( id, date, time, '
+        sql_values = ' VALUES(\'{}\', \'{}\', \'{}\', '.format(self.primary_key, d, t)
+
         for i, k in enumerate(self.db_dict.keys()):
             if i == len(self.db_dict.keys()) - 1:
-                sql_code += '{}'.format(self.db_dict[k])
+                sql_column += '{}'.format(k)
+                sql_values += '{}'.format(self.db_dict[k])
             else:
-                sql_code += '{}, '.format(self.db_dict[k])
-        sql_code += ')'
+                sql_column += '{}, '.format(k)
+                sql_values += '{}, '.format(self.db_dict[k])
+
+        sql_column += ')'
+        sql_values += ')'
+
+        sql_code = 'INSERT INTO {}'.format(self.table_name) + sql_column + sql_values
 
         c.execute(sql_code)
 
@@ -134,9 +142,28 @@ class makeParamDB(makeTools):
 
         conn.close()
 
+    def alter_column_sql(self):
+
+        conn = sqlite3.connect(self.db_path)
+        c = conn.cursor()
+        c.execute('PRAGMA TABLE_INFO({})'.format(self.table_name))
+
+        column_names = [item[1] for item in c.fetchall()]
+
+        if len(column_names[3:]) < len(self.db_dict.keys()): # skip (id, date, time)
+            for k in self.db_dict.keys(): 
+                if not k in column_names:
+                    c.execute('ALTER TABLE {} ADD COLUMN {};'.format(self.table_name, k))
+        
+        conn.commit()
+
+        conn.close()
+
+
     def execute(self):
         
         self.create_table_sql()
+        self.alter_column_sql()
         self.insert_values_sql()
 
 
