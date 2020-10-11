@@ -68,9 +68,16 @@ class makeParamDB(makeTools):
         self.db_path = db_path
 
         self.table_name = super().getCurrentDirectryName()
-        self.db_dict = self.add_quotation(self.read_yaml())
 
         self.primary_key = super().getULIDs()
+        self.d, self.t = super().getDateTime()
+
+
+    def setYamlPath(self, yaml_path):
+        self.yaml_path = yaml_path
+    
+    def setDBPath(self, db_path):
+        self.db_path = db_path
     
     def read_yaml(self):
         with open(self.yaml_path, mode="r") as f:
@@ -94,10 +101,8 @@ class makeParamDB(makeTools):
         conn = sqlite3.connect(self.db_path)
         c = conn.cursor()
 
-        d, t = super().getDateTime()
-
         sql_column = '( id, date, time, '
-        sql_values = ' VALUES(\'{}\', \'{}\', \'{}\', '.format(self.primary_key, d, t)
+        sql_values = ' VALUES(\'{}\', \'{}\', \'{}\', '.format(self.primary_key, self.d, self.t)
 
         for i, k in enumerate(self.db_dict.keys()):
             if i == len(self.db_dict.keys()) - 1:
@@ -161,6 +166,8 @@ class makeParamDB(makeTools):
 
 
     def execute(self):
+
+        self.db_dict = self.add_quotation(self.read_yaml())
         
         self.create_table_sql()
         self.alter_column_sql()
@@ -179,16 +186,19 @@ def main():
     if not os.path.isdir(database_path):
         os.makedirs(database_path)
     
-    database_path = os.path.join(database_path, "research.db")
+    parameter_db_path = os.path.join(database_path, "parameter.db")
+    metrics_db_path   = os.path.join(database_path, "metrics.db")
 
-    yaml_path = "./param/hypara.yaml"
-    if not os.path.isfile(yaml_path):
-        print('yamlファイルを作成してください．\n')
+    parameter_yaml_path = "./logs/parameter.yaml"
+    metrics_yaml_path = "./logs/metrics.yaml"
+
+    if not os.path.isfile(parameter_yaml_path):
+        print('parameter.yamlファイルを作成してください．\n')
         print('''def make_log_file(args):
     import yaml
 
-    default_path = "./param"
-    default_filename = "hypara.yaml"
+    default_path = "./logs"
+    default_filename = "parameter.yaml"
     if not os.path.isdir(default_path):
         os.makedirs(default_path)
 
@@ -196,11 +206,24 @@ def main():
 
     with open(os.path.join(default_path, default_filename), mode="w") as f:
         f.write(yaml.dump(param_dict, default_flow_style=False))
-                ''')
+        ''')
 
-    do_database = makeParamDB(yaml_path, database_path)
+    if not os.path.isfile(metrics_yaml_path):
+        print("metrics.yamlがありません。")
 
-    do_database.execute()
+        do_database = makeParamDB(parameter_yaml_path, parameter_db_path)
+
+        do_database.execute()
+    
+    else:
+        do_database = makeParamDB(parameter_yaml_path, parameter_db_path)
+
+        do_database.execute()
+
+        do_database.setYamlPath(metrics_yaml_path)
+        do_database.setDBPath(metrics_db_path)
+
+        do_database.execute()
 
 
 if __name__ == "__main__":
