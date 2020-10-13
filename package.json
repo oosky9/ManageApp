@@ -1,31 +1,18 @@
 {
-  "name": "ManageApp",
+  "name": "App",
   "version": "1.0.0",
+  "description": "",
   "main": "app.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "./node_modules/.bin/nodemon app.js"
   },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/oosky9/ManageApp.git"
-  },
   "keywords": [],
   "author": "",
   "license": "ISC",
-  "bugs": {
-    "url": "https://github.com/oosky9/ManageApp/issues"
-  },
-  "homepage": "https://github.com/oosky9/ManageApp#readme",
   "dependencies": {
     "ejs": "^3.1.5",
     "express": "^4.17.1",
-    "jquery": "^3.5.1",
-    "jsdom": "^16.4.0",
     "sqlite3": "^5.0.0"
-  },
-  "devDependencies": {
-    "nodemon": "^2.0.4"
-  },
-  "description": ""
+  }
 }

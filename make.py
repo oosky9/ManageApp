@@ -72,21 +72,27 @@ class makeParamDB(makeTools):
         self.primary_key = super().getULIDs()
         self.d, self.t = super().getDateTime()
 
+        self.stat_metrics = False
+
 
     def setYamlPath(self, yaml_path):
         self.yaml_path = yaml_path
     
-    def setDBPath(self, db_path):
-        self.db_path = db_path
+    def setStateMetrics(self, stat):
+        self.stat_metrics = stat
     
     def read_yaml(self):
         with open(self.yaml_path, mode="r") as f:
             param_dict = yaml.load(f)
         return param_dict
     
+    def change_dict_key(self, old_key, new_key, default_value=None):
+        self.db_dict[new_key] = self.db_dict.pop(old_key, default_value)
+    
     def add_quotation(self, param_dict):
         db_dict = {}
         for k in param_dict.keys():
+
             if isinstance(param_dict[k], str):
                 db_dict[k] = "\'" + param_dict[k] + "\'"
 
@@ -94,13 +100,12 @@ class makeParamDB(makeTools):
                 db_dict[k] = param_dict[k]
 
         return db_dict
-
     
     def insert_values_sql(self):
 
         conn = sqlite3.connect(self.db_path)
         c = conn.cursor()
-
+    
         sql_column = '( id, date, time, '
         sql_values = ' VALUES(\'{}\', \'{}\', \'{}\', '.format(self.primary_key, self.d, self.t)
 
@@ -124,7 +129,21 @@ class makeParamDB(makeTools):
         c.execute('SELECT * FROM {}'.format(self.table_name))
 
         conn.close()
-    
+
+    def update_values_sql(self):
+        conn = sqlite3.connect(self.db_path)
+        c = conn.cursor()
+
+        for k in self.db_dict.keys():
+            sql = 'UPDATE {} SET {} = {} where id="{}"'.format(self.table_name, k, self.db_dict[k], self.primary_key)
+            
+            c.execute(sql)
+        
+        conn.commit()
+
+        conn.close()
+
+
     def create_table_sql(self):
 
         conn = sqlite3.connect(self.db_path)
@@ -155,11 +174,22 @@ class makeParamDB(makeTools):
 
         column_names = [item[1] for item in c.fetchall()]
 
-        if len(column_names[3:]) < len(self.db_dict.keys()): # skip (id, date, time)
-            for k in self.db_dict.keys(): 
+        if self.stat_metrics:
+            keys = list(self.db_dict.keys())
+            for k in keys:
+                new_key = 'metrics_' + k
+                self.change_dict_key(k, new_key)
+            
+            for k in self.db_dict.keys():
                 if not k in column_names:
                     c.execute('ALTER TABLE {} ADD COLUMN {};'.format(self.table_name, k))
         
+        else:
+            if len(column_names[3:]) < len(self.db_dict.keys()): # skip (id, date, time)
+                for k in self.db_dict.keys(): 
+                    if not k in column_names:
+                        c.execute('ALTER TABLE {} ADD COLUMN {};'.format(self.table_name, k))
+            
         conn.commit()
 
         conn.close()
@@ -170,24 +200,28 @@ class makeParamDB(makeTools):
         self.db_dict = self.add_quotation(self.read_yaml())
         
         self.create_table_sql()
+
         self.alter_column_sql()
-        self.insert_values_sql()
+
+        if self.stat_metrics:
+            self.update_values_sql()
+        else:
+            self.insert_values_sql()
 
 
 def main():
 
-    backup_dir = "D:\\Backup\\"
+    backup_dir = "D:\\Research\\Backup\\"
 
     do_backup = makeBackup(backup_dir)
 
     do_backup.copy()
 
-    database_path = "D:\\Database\\"
+    database_path = "D:\\Research\\Database\\"
     if not os.path.isdir(database_path):
         os.makedirs(database_path)
     
     parameter_db_path = os.path.join(database_path, "parameter.db")
-    metrics_db_path   = os.path.join(database_path, "metrics.db")
 
     parameter_yaml_path = "./logs/parameter.yaml"
     metrics_yaml_path = "./logs/metrics.yaml"
@@ -221,7 +255,7 @@ def main():
         do_database.execute()
 
         do_database.setYamlPath(metrics_yaml_path)
-        do_database.setDBPath(metrics_db_path)
+        do_database.setStateMetrics(True)
 
         do_database.execute()
 

@@ -10,7 +10,7 @@
 
     <header>
         <div id="nav">
-            <h4>KYORO PARAM</h4>
+            <a class="app-title">KYORO PARAM</a>
         </div>
     </header>
 
@@ -25,7 +25,6 @@
 
                 <p>Kyoro Param is an application for parameter management.</p>
 
-
                 <img src="/images/kyoroko.png">
 
             </div>
@@ -34,9 +33,12 @@
             <div id="btn-wrapper">
 
                 <section class="down-to-top">
-                    <a class="btn" href="/table">Glow</a>
-                    <a class="btn" href="#">VAE</a>
-                    <a class="btn" href="#">PCA</a>
+                    <% items.forEach((item) => { %>
+                    <form action="/table/<%= item.name %>" method="post">
+                        <input class="btn" type="submit" value="<%= item.name %>">
+                    </form>
+                    <% }); %>
+
                 </section>
 
             </div>

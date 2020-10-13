@@ -12,203 +12,70 @@
 
     <header>
         <div id="nav">
-            <h4>KYORO PARAM</h4>
+            <a href="/" class="app-title">KYORO PARAM</a>
         </div>
     </header>
 
     <body>
         <div class="container">
             <div class="table-title">
-                <h1>Glow</h1>
+                <h1><%= tb_title %></h1>
             </div>
 
-            <div class="signup-modal-wrapper" id="signup-modal">
-                <div class="modal">
-                  <div>
-                    <i class="fa fa-2x fa-times" id="close-modal"></i>
-                  </div>
-                  <div id="signup-form">
-                    <h2>Add Metrics and Value to DB</h2>
-                    <form action="#">
-                      <select class=”form-control” aria-placeholder="Metrics">
-                        <option value="">Metrics</option>
-                        <option value=”L1_Generalization”>L1 Generalization</option>
-                        <option value=”L1_Specificity”>L1 Specificity</option>
-                        <option value=”L1_Average”>L1 Average</option>
-                        <option value=”L2_Generalization”>L2 Generalization</option>
-                        <option value=”L2_Specificity”>L2 Specificity</option>
-                        <option value=”L2_Average”>L2 Average</option>
-                      </select>
-                      <input class="form-control" type="text" placeholder="Id">
-                      <input class="form-control" type="number" placeholder="Value">
-                      <div id="submit-btn">ADD DB</div>
-                    </form>
-                  </div>
-                </div>
-              </div>
-            
+
+
+            <% var keys = Object.keys(params[0]); %>
+            <% const re = "metrics"; %>
+
             <section class="down-to-top">
                 <div class="scroll-table">
                     <table>
+                        <% for(let i=0; i<3; i++) { %> 
                         <tr>
-                            <th class="fixed">id</th>
-                            <td>0000</td>
-                            <td>ccc</td>
-                            <td>aaa</td>
-                            <td>0000</td>
-                            <td>ccc</td>
-                            <td>aaa</td>
-
+                            <th class="fixed"><%- keys[i] %></th>
+                            <% params.forEach((p)=>{ %>
+                                <td><%- p[keys[i]] %></td>
+                            <% }); %>
                         </tr>
+                        <% }; %>
 
-                        <tr>
-                            <th class="fixed">date</th>
-                            <td>0000</td>
-                            <td>ccc</td>
-                            <td>aaa</td>
-                            <td>0000</td>
-                            <td>ccc</td>
-                            <td>aaa</td>
-
-                        </tr>
-
-                        <tr>
-                            <th class="fixed">time</th>
-                            <td>0000</td>
-                            <td>ccc</td>
-                            <td>aaa</td>
-                            <td>0000</td>
-                            <td>ccc</td>
-                            <td>aaa</td>
-
-                        </tr>
-
+                        
                         <tr>
                             <td class="table-name">Parameter</td>
                         </tr>
+                        
+                        <% var counter=0; %>
+                        <% for(let i=3; i<keys.length; i++){ 
+                            var k = keys[i];
+
+                            if (k.match(re)==null){ %>
+                                <tr>
+                                    <th class="fixed"><%- k %></th>
+                                    <% params.forEach((p)=>{ %>
+                                        <td><%- p[k] %></td>
+                                    <% }) %>
+                                </tr>
+                            <%} else {
+                                counter = counter+1;
+                            }
+                        };%>
+
 
                         <tr>
-                            <th class="fixed">aaa</th>
-                            <td>bbbb</td>
-                            <td>cccc</td>
-                            <td>eeeee</td>
-                            <td>0000</td>
-                            <td>ccc</td>
-                            <td>aaa</td>
+                            <td class="table-name">Metrics</td>
                         </tr>
+                        <% for(let i=keys.length-counter; i<keys.length; i++){ %>
+                            <% var k = keys[i]; %>
+                            <% k = k.substr(8); %>
+                            <tr>
+                                <th class="fixed"><%- k %></th>
+                                <% params.forEach((p)=>{ %>
+                                    <td><%- p[keys[i]] %></td>
+                                <% }) %>
+                            </tr>
+                        <% } %>
+               
 
-                        <tr>
-                            <th class="fixed">aaa</th>
-                            <td>bbbb</td>
-                            <td>cccc</td>
-                            <td>eeeee</td>
-                            <td>0000</td>
-                            <td>ccc</td>
-                            <td>aaa</td>
-                        </tr>
-
-                        <tr>
-                            <th class="fixed">aaa</th>
-                            <td>bbbb</td>
-                            <td>cccc</td>
-                            <td>eeeee</td>
-                            <td>0000</td>
-                            <td>ccc</td>
-                            <td>aaa</td>
-                        </tr>
-                        <tr>
-                            <th class="fixed">aaa</th>
-                            <td>bbbb</td>
-                            <td>cccc</td>
-                            <td>eeeee</td>
-                            <td>0000</td>
-                            <td>ccc</td>
-                            <td>aaa</td>
-                        </tr>
-                        <tr>
-                            <th class="fixed">aaa</th>
-                            <td>bbbb</td>
-                            <td>cccc</td>
-                            <td>eeeee</td>
-                            <td>0000</td>
-                            <td>ccc</td>
-                            <td>aaa</td>
-                        </tr>
-                        <tr>
-                            <th class="fixed">aaa</th>
-                            <td>bbbb</td>
-                            <td>cccc</td>
-                            <td>eeeee</td>
-                            <td>0000</td>
-                            <td>ccc</td>
-                            <td>aaa</td>
-                        </tr>
-
-                        <tr>
-                            <td class="table-name">Metrics
-                                <a class="add-btn">+ Add</a>
-                            </td>
-                        </tr>
-
-                        <tr>
-                            <th class="fixed">L1 Generalization</th>
-                            <td>bbbb</td>
-                            <td>cccc</td>
-                            <td>eeeee</td>
-                            <td>0000</td>
-                            <td>ccc</td>
-                            <td>aaa</td>
-                        </tr>
-
-                        <tr>
-                            <th class="fixed">L1 Specificity</th>
-                            <td>bbbb</td>
-                            <td>cccc</td>
-                            <td>eeeee</td>
-                            <td>0000</td>
-                            <td>ccc</td>
-                            <td>aaa</td>
-                        </tr>
-
-                        <tr>
-                            <th class="fixed">L1 Average</th>
-                            <td>bbbb</td>
-                            <td>cccc</td>
-                            <td>eeeee</td>
-                            <td>0000</td>
-                            <td>ccc</td>
-                            <td>aaa</td>
-                        </tr>
-
-                        <tr>
-                            <th class="fixed">L2 Generalization</th>
-                            <td>bbbb</td>
-                            <td>cccc</td>
-                            <td>eeeee</td>
-                            <td>0000</td>
-                            <td>ccc</td>
-                            <td>aaa</td>
-                        </tr>
-
-                        <tr>
-                            <th class="fixed">L2 Specificity</th>
-                            <td>bbbb</td>
-                            <td>cccc</td>
-                            <td>eeeee</td>
-                            <td>0000</td>
-                            <td>ccc</td>
-                            <td>aaa</td>
-                        </tr>
-
-                        <tr>
-                            <th class="fixed">L2 Average</th>
-                            <td>bbbb</td>
-                            <td>cccc</td>
-                            <td>eeeee</td>
-                            <td>0000</td>
-                            <td>ccc</td>
-                            <td>aaa</td>
-                        </tr>
 
                     </table>
                 </div>

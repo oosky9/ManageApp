@@ -16,9 +16,12 @@ body {
     background-color: rgba(235, 27, 111);
 }
 
-#nav h4 {
+.app-title {
     color: white;
-    padding: 10px 30px;
+    font-size: 15pt;
+    display: block;
+    padding-top: 10px;
+    padding-left: 30px;
 }
 
 
@@ -32,7 +35,7 @@ body {
 #main-wrapper img{
     position: fixed;
     top: 400px;
-    left: 20%;
+    left: 21%;
     z-index: 10;
     opacity: 0.8;
 }
@@ -60,7 +63,7 @@ body {
 }
 
 .btn {
-    width: 50%;
+    width: 60%;
     font-size: 20pt;
     font-weight: 800;
     background-color: rgba(21, 21, 39, 0.685);
@@ -119,7 +122,7 @@ body {
     background: #999;
 }
 
-.scroll-table table{
+.scroll-table table {
     font-family: Tahoma, Geneva, Verdana, sans-serif;
     width: 100%;
     table-layout: fixed;
@@ -129,11 +132,22 @@ body {
 
 .scroll-table table th, table td{
     color: white;
-    width: 250px;
-    padding:15px 0px;
+    width: 300px;
+    padding: 15px 30px;
     text-align: center;
     border-top: solid 1px white;
     border-bottom: solid 1px white;
+    overflow: auto;
+}
+
+th, td::-webkit-scrollbar{
+    height: 5px;
+}
+th, td::-webkit-scrollbar-track{
+    background: #333;
+}
+th, td::-webkit-scrollbar-thumb {
+    background: #999;
 }
 
 .fixed{
@@ -161,101 +175,3 @@ body {
     border-bottom: 0px none;
 }
 
-.add-btn {
-    color:white;
-    font-size: 12pt;
-    text-align: center;
-    margin-left: 30px;
-    padding: 4px 20px 6px 15px;
-    background-color: rgba(235, 27, 111);
-    border: solid 3px rgb(235, 27, 111);
-    border-radius: 30px;
-}
-
-.add-btn:hover {
-    color: rgb(235, 27, 111);
-    background-color: white;
-    transition: all 0.5s;
-}
-
-.signup-modal-wrapper {
-    position: fixed;
-    top: 0;
-    right: 0;
-    bottom: 0;
-    left: 0;
-    background-color: rgba(0, 0, 0, 0.6);
-    z-index: 100;
-    display: none;
-}
-  
-.modal {
-    position: absolute;
-    top: 20%;
-    left: 34%;
-    background-color: #e6ecf0;
-    padding: 20px 0 40px;
-    border-radius: 10px;
-    width: 450px;
-    height: auto;
-    text-align: center;
-}
-  
-.fa-times {
-    position: absolute;
-    top: 12px;
-    right: 12px;
-    color: rgba(128, 128, 128, 0.46);
-    cursor: pointer;
-}
-
-
-.fa {
-    margin-top: -5px;
-    margin-right: 5px;
-}
-
-#signup-form {
-    width: 100%;
-}
-  
-#signup-form h2 {
-    color: #5f5d60;
-    letter-spacing: 1px;
-    margin-bottom: 40px;
-}
-
-#signup-form input {
-    width: 320px;
-    margin-bottom: 20px;
-    font-size: 12px;
-    padding: 12px 12px;
-    border: 1px solid #d0d5d8;
-    border-radius: 5px;
-}
-
-#signup-form select {
-    width: 320px;
-    margin-bottom: 20px;
-    font-size: 12px;
-    padding: 12px 12px;
-    border: 1px solid #d0d5d8;
-    border-radius: 5px;
-}
-
-#submit-btn {
-    display: inline-block;
-    padding: 14px 140px;
-    background-color: rgb(235, 27, 111);
-    border: none;
-    border-radius: 3px;
-    color: white;
-    margin: 10px auto;
-    cursor: pointer;
-}
-
-input[type=number]::-webkit-inner-spin-button,
-input[type=number]::-webkit-outer-spin-button {
-  -webkit-appearance: none;
-  margin: 0;
-}
