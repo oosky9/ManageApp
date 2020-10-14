@@ -25,7 +25,7 @@ app.post('/table/:name', (req, res) => {
   var tb_name = req.params.name;
 
   db_parameter.serialize(()=>{
-    db_parameter.all(`select * from ${tb_name} ;`, (err, results)=>{
+    db_parameter.all(`select * from ${tb_name} order by date desc, time desc; `, (err, results)=>{
       res.render('table.ejs', {tb_title: tb_name, params: results})
     });
   });
