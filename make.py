@@ -185,10 +185,10 @@ class makeParamDB(makeTools):
                     c.execute('ALTER TABLE {} ADD COLUMN {};'.format(self.table_name, k))
         
         else:
-            if len(column_names[3:]) < len(self.db_dict.keys()): # skip (id, date, time)
-                for k in self.db_dict.keys(): 
-                    if not k in column_names:
-                        c.execute('ALTER TABLE {} ADD COLUMN {};'.format(self.table_name, k))
+
+            for k in self.db_dict.keys(): 
+                if not k in column_names:
+                    c.execute('ALTER TABLE {} ADD COLUMN {};'.format(self.table_name, k))
             
         conn.commit()
 
@@ -211,11 +211,11 @@ class makeParamDB(makeTools):
 
 def main():
 
-    backup_dir = "D:\\Research\\Backup\\"
+    # backup_dir = "D:\\Research\\Backup\\"
 
-    do_backup = makeBackup(backup_dir)
+    # do_backup = makeBackup(backup_dir)
 
-    do_backup.copy()
+    # do_backup.copy()
 
     database_path = "D:\\Research\\Database\\"
     if not os.path.isdir(database_path):
