@@ -55,24 +55,28 @@
                                         <td><%- p[k] %></td>
                                     <% }) %>
                                 </tr>
-                            <%} else {
-                                counter = counter+1;
-                            }
-                        };%>
+                            <% } %>
+                        <%};%>
 
 
                         <tr>
                             <td class="table-name">Metrics</td>
                         </tr>
-                        <% for(let i=keys.length-counter; i<keys.length; i++){ %>
-                            <% var k = keys[i]; %>
-                            <% k = k.substr(8); %>
-                            <tr>
-                                <th class="fixed"><%- k %></th>
-                                <% params.forEach((p)=>{ %>
-                                    <td><%- p[keys[i]] %></td>
+                        <% for(let i=3; i<keys.length; i++){ 
+                            var k = keys[i];
+
+                            if (k.match(re)==null){
+                                continue;
+                            } else { %>
+
+                                <% k = k.substr(8); %>
+                                <tr>
+                                    <th class="fixed"><%- k %></th>
+                                    <% params.forEach((p)=>{ %>
+                                        <td><%- p[keys[i]] %></td>
                                 <% }) %>
                             </tr>
+                            <%}%>
                         <% } %>
                
 
