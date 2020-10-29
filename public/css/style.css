@@ -5,7 +5,11 @@ a {
 body {
     background-color: rgb(16, 30, 65);
     margin: 0 0 100px 0;
-    font-family: 'Work Sans', sans-serif;
+    font-family: 'Lora', sans-serif;
+}
+
+table, td, th {
+    font-family: 'Lora', sans-serif;
 }
 
 
