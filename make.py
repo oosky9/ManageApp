@@ -1,13 +1,10 @@
 import os
-import argparse
 import datetime
 import shutil
 
 import yaml
 import sqlite3
 import ulid
-
-from tqdm import tqdm
 
 class makeTools:
 
@@ -52,8 +49,8 @@ class makeBackup(makeTools):
 
         print("Now Copying ...")
 
-        for s, d in tqdm(zip(source, destin), total=len(source)):
-
+        for s, d in zip(source, destin):
+            print(s)
             try:
                 shutil.copytree(s, d)
             except:
@@ -83,7 +80,7 @@ class makeParamDB(makeTools):
     
     def read_yaml(self):
         with open(self.yaml_path, mode="r") as f:
-            param_dict = yaml.load(f)
+            param_dict = yaml.load(f, Loader=yaml.SafeLoader)
         return param_dict
     
     def change_dict_key(self, old_key, new_key, default_value=None):
@@ -211,11 +208,11 @@ class makeParamDB(makeTools):
 
 def main():
 
-    # backup_dir = "D:\\Research\\Backup\\"
+    backup_dir = "D:\\Research\\Backup\\"
 
-    # do_backup = makeBackup(backup_dir)
+    do_backup = makeBackup(backup_dir)
 
-    # do_backup.copy()
+    do_backup.copy()
 
     database_path = "D:\\Research\\Database\\"
     if not os.path.isdir(database_path):
